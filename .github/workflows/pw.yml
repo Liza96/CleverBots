@@ -1,0 +1,41 @@
+name: Run Playwright Tests
+
+on:
+  # Запускать тесты при каждом пуше в main или pull request
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout кода из репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Установка Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 # Укажите версию Node.js, которую вы используете
+
+      # 3. Установка зависимостей
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Запуск Playwright-тестов
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      # 5. (Опционально) Отправка отчетов о тестах
+      - name: Upload Playwright test results
+        if: always() # Даже если тесты упадут, отправить результаты
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-test-results
+          path: test-results/ # Убедитесь, что Playwright сохраняет результаты в эту папку
