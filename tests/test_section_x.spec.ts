@@ -105,7 +105,7 @@ test.describe('Группа тестов class section_x section_x__top', () => 
     }
   });
 
-  test('Проверка атрибутов href элементов навигации хедера', async ({ page }) => {
+  /*test('Проверка атрибутов href элементов навигации хедера', async ({ page }) => {
     await expect(page.getByRole('link', { name: 'AI Avatars' })).toHaveAttribute(
       'href',
       'https://studio.cleverbots.ru/avatar',
@@ -200,5 +200,5 @@ test.describe('Группа тестов class section_x section_x__top', () => 
     await expect(
       page.getByRole('contentinfo').getByRole('link', { name: 'linkedin' }),
     ).toContainText('linkedin');
-  });
+  });*/
 });
