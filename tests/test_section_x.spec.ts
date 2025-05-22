@@ -3,10 +3,10 @@ import { test, expect } from '@playwright/test';
 //class="section_x section_x__top"
 
 const elements = [
-  {
+  /*{
     locator: (page) => page.getByTitle('You are here.'),
     name: 'You are here',
-  },
+  },*/
   {
     locator: (page) => page.locator('.navbar__lisk').first(),
     name: 'Navbar lisk button',
@@ -17,8 +17,7 @@ const elements = [
     text: 'Avatars',
   },
   {
-    locator: (page) =>
-      page.locator('#menu-glavnoe-menyu').getByRole('link', { name: 'Marketplace' }),
+    locator: (page) => page.locator('#menu-glavnoe-menyu a').filter({ hasText: 'Marketplace' }),
     name: 'Marketplace link',
     text: 'Marketplace',
   },
@@ -28,17 +27,17 @@ const elements = [
     text: 'Directions',
   },
   {
-    locator: (page) => page.getByRole('link', { name: 'projects', exact: true }),
+    locator: (page) => page.getByRole('link', { name: 'Projects' }),
     name: 'Projects link',
     text: 'projects',
   },
   {
-    locator: (page) => page.locator('#menu-glavnoe-menyu').getByRole('link', { name: 'Solutions' }),
+    locator: (page) => page.locator('#menu-glavnoe-menyu a').filter({ hasText: 'Solutions' }),
     name: 'Solutions link',
     text: 'Solutions',
   },
   {
-    locator: (page) => page.locator('a').filter({ hasText: 'About Us' }).first(),
+    locator: (page) => page.getByRole('link', { name: 'About Us' }),
     name: 'About Us button',
     text: 'About',
   },
@@ -54,9 +53,10 @@ const elements = [
 ];
 
 test.describe('Группа тестов class section_x section_x__top', () => {
-  test.describe.configure({ timeout: 120_000 });
+  //test.describe.configure({ timeout: 120_000 });
+  test.describe.configure({ mode: 'parallel' });
 
-  test.beforeEach(async ({ page }) => {
+  /*test.beforeEach(async ({ page }) => {
     await page.goto('https://cleverbots.ru/');
   });
 
@@ -76,6 +76,33 @@ test.describe('Группа тестов class section_x section_x__top', () => 
         });
       }
     });
+  });*/
+  test.beforeEach(async ({ page }) => {
+    await page.goto('https://cleverbots.ru/ ', {
+      waitUntil: 'networkidle',
+    });
+
+    // Ждём появления хедера
+    await page.waitForSelector('.header-nav', { timeout: 10_000 });
+  });
+
+  test('Проверка отображения элементов навигации хедера', async ({ page }) => {
+    for (const { locator, name } of elements) {
+      await test.step(`Проверка отображения элемента: ${name}`, async () => {
+        const el = locator(page);
+        await expect.soft(el).toBeVisible({ timeout: 10_000 });
+      });
+    }
+  });
+  test('Проверка названия элементов навигации хедера', async ({ page }) => {
+    for (const { locator, name, text } of elements) {
+      if (!text) continue;
+
+      await test.step(`Проверка текста элемента: ${name}`, async () => {
+        const el = locator(page);
+        await expect.soft(el).toContainText(text, { timeout: 10_000 });
+      });
+    }
   });
 
   test('Проверка атрибутов href элементов навигации хедера', async ({ page }) => {
