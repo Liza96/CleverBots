@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-//class="section_x section_x__top"
+//class="home__top__wrap"
 
 test.describe('Группа тестов class section_x section_x__top', () => {
   test.describe.configure({ timeout: 120_000 });
