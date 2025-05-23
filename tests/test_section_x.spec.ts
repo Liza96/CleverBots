@@ -2,110 +2,53 @@ import { test, expect } from '@playwright/test';
 
 //class="section_x section_x__top"
 
-const elements = [
-  /*{
-    locator: (page) => page.getByTitle('You are here.'),
-    name: 'You are here',
-  },*/
-  {
-    locator: (page) => page.locator('.navbar__lisk').first(),
-    name: 'Navbar lisk button',
-  },
-  {
-    locator: (page) => page.getByRole('link', { name: 'AI Avatars' }),
-    name: 'AI Avatars link',
-    text: 'Avatars',
-  },
-  {
-    locator: (page) => page.locator('#menu-glavnoe-menyu a').filter({ hasText: 'Marketplace' }),
-    name: 'Marketplace link',
-    text: 'Marketplace',
-  },
-  {
-    locator: (page) => page.locator('#menu-glavnoe-menyu a').filter({ hasText: 'Directions' }),
-    name: 'Directions button',
-    text: 'Directions',
-  },
-  {
-    locator: (page) => page.getByRole('link', { name: 'Projects' }),
-    name: 'Projects link',
-    text: 'projects',
-  },
-  {
-    locator: (page) => page.locator('#menu-glavnoe-menyu a').filter({ hasText: 'Solutions' }),
-    name: 'Solutions link',
-    text: 'Solutions',
-  },
-  {
-    locator: (page) => page.getByRole('link', { name: 'About Us' }),
-    name: 'About Us button',
-    text: 'About',
-  },
-  {
-    locator: (page) => page.locator('#to-callback-link'),
-    name: 'Callback link',
-    text: 'Get a consultation',
-  },
-  {
-    locator: (page) => page.getByRole('link', { name: 'en EN' }),
-    name: 'en EN button',
-  },
-];
-
 test.describe('Группа тестов class section_x section_x__top', () => {
-  //test.describe.configure({ timeout: 120_000 });
-  test.describe.configure({ mode: 'parallel' });
+  test.describe.configure({ timeout: 120_000 });
 
-  /*test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
     await page.goto('https://cleverbots.ru/');
   });
 
   test('Проверка отображения элементов навигации хедера', async ({ page }) => {
-    elements.forEach(({ locator, name }) => {
-      test.step(`Проверка отображения элементов ${name}`, async () => {
-        await expect.soft(locator(page)).toBeVisible();
-      });
-    });
+    await expect(page.getByTitle('You are here.')).toBeVisible();
+    await expect(page.locator('.navbar__lisk').first()).toBeVisible();
+    await expect(page.getByRole('link', { name: 'AI Avatars' })).toBeVisible();
+    await expect(
+      page.locator('#menu-glavnoe-menyu').getByRole('link', { name: 'Marketplace' }),
+    ).toBeVisible();
+    await expect(
+      page.locator('#menu-glavnoe-menyu a').filter({ hasText: 'Directions' }),
+    ).toBeVisible();
+    await expect(page.getByRole('link', { name: 'projects', exact: true })).toBeVisible();
+    await expect(
+      page.locator('#menu-glavnoe-menyu').getByRole('link', { name: 'Solutions' }),
+    ).toBeVisible();
+    await expect(page.locator('a').filter({ hasText: 'About Us' }).first()).toBeVisible();
+    await expect(page.locator('#to-callback-link')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'en EN' })).toBeVisible();
   });
 
   test('Проверка названия элементов навигации хедера', async ({ page }) => {
-    elements.forEach(({ locator, name, text }) => {
-      if (text) {
-        test.step(`Проверка названия элементов ${name}`, async () => {
-          await expect(locator(page)).toContainText(text);
-        });
-      }
-    });
-  });*/
-  test.beforeEach(async ({ page }) => {
-    await page.goto('https://cleverbots.ru/ ', {
-      waitUntil: 'networkidle',
-    });
-
-    // Ждём появления хедера
-    await page.waitForSelector('.header-nav', { timeout: 10_000 });
+    await expect(page.getByRole('link', { name: 'AI Avatars' })).toContainText('AI Avatars');
+    await expect(
+      page.locator('#menu-glavnoe-menyu').getByRole('link', { name: 'Marketplace' }),
+    ).toContainText('Marketplace');
+    await expect(
+      page.locator('#menu-glavnoe-menyu a').filter({ hasText: 'Directions' }),
+    ).toContainText('Directions');
+    await expect(page.getByRole('link', { name: 'projects', exact: true })).toContainText(
+      'projects',
+    );
+    await expect(
+      page.locator('#menu-glavnoe-menyu').getByRole('link', { name: 'Solutions' }),
+    ).toContainText('Solutions');
+    await expect(page.locator('a').filter({ hasText: 'About Us' }).first()).toContainText(
+      'About Us',
+    );
+    await expect(page.locator('#to-callback-link')).toContainText('Get a consultation');
   });
 
-  test('Проверка отображения элементов навигации хедера', async ({ page }) => {
-    for (const { locator, name } of elements) {
-      await test.step(`Проверка отображения элемента: ${name}`, async () => {
-        const el = locator(page);
-        await expect.soft(el).toBeVisible({ timeout: 10_000 });
-      });
-    }
-  });
-  test('Проверка названия элементов навигации хедера', async ({ page }) => {
-    for (const { locator, name, text } of elements) {
-      if (!text) continue;
-
-      await test.step(`Проверка текста элемента: ${name}`, async () => {
-        const el = locator(page);
-        await expect.soft(el).toContainText(text, { timeout: 10_000 });
-      });
-    }
-  });
-
-  /*test('Проверка атрибутов href элементов навигации хедера', async ({ page }) => {
+  test('Проверка атрибутов href элементов навигации хедера', async ({ page }) => {
     await expect(page.getByRole('link', { name: 'AI Avatars' })).toHaveAttribute(
       'href',
       'https://studio.cleverbots.ru/avatar',
@@ -200,5 +143,5 @@ test.describe('Группа тестов class section_x section_x__top', () => 
     await expect(
       page.getByRole('contentinfo').getByRole('link', { name: 'linkedin' }),
     ).toContainText('linkedin');
-  });*/
+  });
 });
