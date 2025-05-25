@@ -7,58 +7,88 @@ test.describe('Группа тестов section_x section_x__category js_ancor_
 
   test.beforeEach(async ({ page }) => {
     await page.goto('https://cleverbots.ru/');
+    await page.getByRole('link', { name: 'en EN' }).click({ timeout: 120_000 });
+    await page.getByRole('link', { name: 'ru RU' }).click({ timeout: 50_000 });
   });
+
   test('Проверка отображения элементов в home__category__title', async ({ page }) => {
-    await expect(page.getByText('Get the benefits of tomorrow')).toBeVisible();
-    await expect(page.getByText('thanks to proven and')).toBeVisible();
+    await expect(
+      page.getByText(
+        'Получите сегодня преимущества будущего благодаря проверенным и эффективным техно',
+      ),
+    ).toBeVisible();
   });
 
   test('Проверка наименования элементов в home__category__title', async ({ page }) => {
-    await expect(page.getByText('Get the benefits of tomorrow')).toContainText(
-      'Get the benefits of tomorrow today',
-    );
-    await expect(page.getByText('thanks to proven and')).toContainText(
-      'thanks to proven and effective technologies',
+    await expect(page.locator('body')).toContainText(
+      'Получите сегодня преимущества будущего благодаря проверенным и эффективным технологиям',
     );
   });
 
-  test('Проверка отображения элементов в home__category__list', async ({ page }) => {
-    await expect(page.getByText('Get the benefits of tomorrow')).toBeVisible();
-    await expect(page.getByText('thanks to proven and')).toBeVisible();
+  test('Проверка отображения элементов в skiptranslate', async ({ page }) => {
+    await expect(
+      page.getByText('Генеративный искусственный интеллект', { exact: true }).nth(2),
+    ).toBeVisible();
+    await expect(page.getByText('Разработка чат-ботов для бизнеса').nth(2)).toBeVisible();
+    await expect(page.getByText('Разработка голосовых помощников').nth(2)).toBeVisible();
   });
 
   test('Проверка наименования элементов в home__category__list', async ({ page }) => {
-    await expect(page.getByText('Get the benefits of tomorrow')).toContainText(
-      'Get the benefits of tomorrow today',
+    await expect(
+      page.getByText('Генеративный искусственный интеллект', { exact: true }).nth(2),
+    ).toContainText('Генеративный искусственный интеллект');
+    await expect(
+      page.getByText(
+        'Генеративный искусственный интеллект (Генеративный ИИ) - это технология, которая',
+      ),
+    ).toContainText(
+      'Генеративный искусственный интеллект (Генеративный ИИ) - это технология, которая позволяет компьютерным системам генерировать уникальный контент, имитируя творческий процесс человека.',
     );
-    await expect(page.getByText('thanks to proven and')).toContainText(
-      'thanks to proven and effective technologies',
+    await expect(page.getByText('Разработка чат-ботов для бизнеса').nth(2)).toContainText(
+      'Разработка чат-ботов для бизнеса',
+    );
+    await expect(
+      page.getByText(
+        'Виртуальный онлайн-консультант, имитирующий общение с реальным человеком в текст',
+      ),
+    ).toContainText(
+      'Виртуальный онлайн-консультант, имитирующий общение с реальным человеком в текстовых каналах, для автоматизации службы поддержки',
+    );
+    await expect(page.getByText('Разработка голосовых помощников').nth(2)).toContainText(
+      'Разработка голосовых помощников',
+    );
+    await expect(
+      page.getByText(
+        'Автоматизация голосовой коммуникации с помощью алгоритмов машинного обучения для',
+      ),
+    ).toContainText(
+      'Автоматизация голосовой коммуникации с помощью алгоритмов машинного обучения для повышения качества обслуживания и лояльности клиентов',
     );
   });
 
-  test('Проверка отображения кнопок в home__category__list', async ({ page }) => {
+  test('Проверка отображения кнопки в home__category__list', async ({ page }) => {
     await expect(
       page
         .locator('section')
-        .filter({ hasText: 'Get the benefits of tomorrow' })
+        .filter({
+          hasText:
+            'Получите сегодня преимущества будущего благодаря проверенным и эффективным техно',
+        })
         .getByRole('link')
         .first(),
     ).toBeVisible();
-    await expect(
-      page.getByText(
-        'Development of chatbots for business A virtual online consultant that simulates',
-      ),
-    ).toBeVisible();
+  });
+
+  test('Проверка наименования кнопки в home__category__list', async ({ page }) => {
     await expect(
       page
         .locator('section')
-        .filter({ hasText: 'Get the benefits of tomorrow' })
+        .filter({
+          hasText:
+            'Получите сегодня преимущества будущего благодаря проверенным и эффективным техно',
+        })
         .getByRole('link')
-        .nth(2),
-    ).toBeVisible();
-  });
-
-  test('Проверка наименования кнопок в home__category__list', async ({ page }) => {
-    await expect(page.locator('body')).toContainText('Read more');
+        .first(),
+    ).toContainText('Подробнее');
   });
 });
