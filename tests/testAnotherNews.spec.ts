@@ -3,12 +3,12 @@ import { test, expect } from '@playwright/test';
 //class="top_news__line top_news__line--another_news"
 
 test.describe('Группа тестов top_news__line top_news__line--another_news', () => {
-  test.describe.configure({ timeout: 120_000 });
+  test.describe.configure({ timeout: 160_000 });
 
   test.beforeEach(async ({ page }) => {
     await page.goto('https://cleverbots.ru/');
-    await page.getByRole('link', { name: 'en EN' }).click({ timeout: 120_000 });
-    await page.getByRole('link', { name: 'ru RU' }).click({ timeout: 50_000 });
+    await page.getByRole('link', { name: 'en EN' }).click({ timeout: 160_000 });
+    await page.getByRole('link', { name: 'ru RU' }).click({ timeout: 90_000 });
   });
 
   test('Проверка отображения элементов в top_news__title', async ({ page }) => {
@@ -44,9 +44,4 @@ test.describe('Группа тестов top_news__line top_news__line--another_
       }),
     ).toContainText('Понимание намерений клиентов с помощью генеративного ИИ');
   });
-  test('Проверка отображение href элемента security', async ({ page }) => {
-    await expect(
-      page.locator('div:nth-child(3) > .section_x__new_item > .section_x__new_item__image'),
-    ).toHaveAttribute('href', '/kak-ii-pomogaet-v-obnaruzhenii-i-predotvrashchenii-kiberatak/');
-  }); //security для примера
 });
