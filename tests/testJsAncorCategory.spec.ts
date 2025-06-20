@@ -7,20 +7,21 @@ test.describe('Группа тестов section_x section_x__category js_ancor_
 
   test.beforeEach(async ({ page }) => {
     await page.goto('https://cleverbots.ru/');
-    await page.getByRole('link', { name: 'en EN' }).click({ timeout: 120_000 });
-    await page.getByRole('link', { name: 'ru RU' }).click({ timeout: 50_000 });
-  });
-
-  /*test.beforeEach(async ({ page }) => {
-    await page.goto('https://cleverbots.ru/');
 
     // Явное ожидание и клик по ссылкам
     const langEnLink = page.getByRole('link', { name: 'en EN' });
     await expect(langEnLink).toBeVisible();
     await langEnLink.click();
+
     const langRuLink = page.getByRole('link', { name: 'ru RU' });
     await expect(langRuLink).toBeVisible();
     await langRuLink.click();
+  });
+  /*старый формат пока закомментирую
+  test.beforeEach(async ({ page }) => {
+    await page.goto('https://cleverbots.ru/');
+    await page.getByRole('link', { name: 'en EN' }).click({ timeout: 160_000 });
+    await page.getByRole('link', { name: 'ru RU' }).click({ timeout: 90_000 });
   });*/
 
   test('Проверка отображения элементов в home__category__title', async ({ page }) => {

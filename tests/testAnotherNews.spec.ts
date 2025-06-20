@@ -7,9 +7,22 @@ test.describe('Группа тестов top_news__line top_news__line--another_
 
   test.beforeEach(async ({ page }) => {
     await page.goto('https://cleverbots.ru/');
+
+    // Явное ожидание и клик по ссылкам
+    const langEnLink = page.getByRole('link', { name: 'en EN' });
+    await expect(langEnLink).toBeVisible();
+    await langEnLink.click();
+
+    const langRuLink = page.getByRole('link', { name: 'ru RU' });
+    await expect(langRuLink).toBeVisible();
+    await langRuLink.click();
+  });
+  /*старый формат пока закомментирую
+  test.beforeEach(async ({ page }) => {
+    await page.goto('https://cleverbots.ru/');
     await page.getByRole('link', { name: 'en EN' }).click({ timeout: 160_000 });
     await page.getByRole('link', { name: 'ru RU' }).click({ timeout: 90_000 });
-  });
+  });*/
 
   test('Проверка отображения элементов в top_news__title', async ({ page }) => {
     await expect(page.getByText('Новости Cleverbots')).toBeVisible();

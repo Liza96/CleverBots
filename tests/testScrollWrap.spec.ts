@@ -7,9 +7,22 @@ test.describe('Группа тестов class section_x__news js__scroll_wrap',
 
   test.beforeEach(async ({ page }) => {
     await page.goto('https://cleverbots.ru/');
-    await page.getByRole('link', { name: 'en EN' }).click({ timeout: 120_000 });
-    await page.getByRole('link', { name: 'ru RU' }).click({ timeout: 50_000 });
+
+    // Явное ожидание и клик по ссылкам
+    const langEnLink = page.getByRole('link', { name: 'en EN' });
+    await expect(langEnLink).toBeVisible();
+    await langEnLink.click();
+
+    const langRuLink = page.getByRole('link', { name: 'ru RU' });
+    await expect(langRuLink).toBeVisible();
+    await langRuLink.click();
   });
+  /*старый формат пока закомментирую
+  test.beforeEach(async ({ page }) => {
+    await page.goto('https://cleverbots.ru/');
+    await page.getByRole('link', { name: 'en EN' }).click({ timeout: 160_000 });
+    await page.getByRole('link', { name: 'ru RU' }).click({ timeout: 90_000 });
+  });*/
 
   test('Проверка отображения элемента top_news__title', async ({ page }) => {
     await expect(page.locator('div').filter({ hasText: /^Проекты$/ })).toBeVisible();
