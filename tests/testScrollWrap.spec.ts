@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 //class="section_x section_x__news js__scroll_wrap"
 
 test.describe('Группа тестов class section_x__news js__scroll_wrap', () => {
-  test.describe.configure({ timeout: 130_000 });
+  test.describe.configure({ timeout: 100_000 });
 
   test.beforeEach(async ({ page }) => {
     await page.goto('https://cleverbots.ru/');
