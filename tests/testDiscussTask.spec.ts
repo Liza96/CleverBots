@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Группа тестов section сallback', () => {
-  test.describe.configure({ timeout: 100_000 });
+  test.describe.configure({ timeout: 90_000 });
 
   test.beforeEach(async ({ page }) => {
     await page.goto('https://cleverbots.ru/');
